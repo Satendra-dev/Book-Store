@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Newtonsoft.Json;
-using System.Linq;
 
 namespace Book_Store
 {
-    class Program
+    class App
     {
         //Genre for which discounts are available
         
@@ -19,7 +15,7 @@ namespace Book_Store
             var order = new Order();
             totalCost = order.GetTotalCost();
 
-            //10% GST on the totalCost
+            //add 10% GST on the totalCost
             billingCost = (0.1m * totalCost) + totalCost;
 
             //Order above $20 gets free delivery else $5.95 delivery charges applied.

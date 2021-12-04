@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\W50133\\Onedrive - Woodside Energy Ltd\\Desktop\\Github\\personal\\Book Store\\Book Store.csproj": {}
+    "C:\\Workspace\\sats-code\\Book-Store\\Book Store.csproj": {}
   },
   "projects": {
-    "C:\\Users\\W50133\\Onedrive - Woodside Energy Ltd\\Desktop\\Github\\personal\\Book Store\\Book Store.csproj": {
+    "C:\\Workspace\\sats-code\\Book-Store\\Book Store.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\W50133\\Onedrive - Woodside Energy Ltd\\Desktop\\Github\\personal\\Book Store\\Book Store.csproj",
+        "projectUniqueName": "C:\\Workspace\\sats-code\\Book-Store\\Book Store.csproj",
         "projectName": "Book Store",
-        "projectPath": "C:\\Users\\W50133\\Onedrive - Woodside Energy Ltd\\Desktop\\Github\\personal\\Book Store\\Book Store.csproj",
-        "packagesPath": "C:\\Users\\W50133\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\W50133\\Onedrive - Woodside Energy Ltd\\Desktop\\Github\\personal\\Book Store\\obj\\",
+        "projectPath": "C:\\Workspace\\sats-code\\Book-Store\\Book Store.csproj",
+        "packagesPath": "C:\\Users\\maitpo\\.nuget\\packages\\",
+        "outputPath": "C:\\Workspace\\sats-code\\Book-Store\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\W50133\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\maitpo\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"

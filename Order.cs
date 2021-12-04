@@ -8,85 +8,93 @@ namespace Book_Store
 {
     class Order
     {
-        int quantity;
-        string bookTitle;
-        List<Order> orderList;
+        List<OrderItem> orderList;
         List<Book> bookCollection;
+        decimal totalCost = 0.00m;
+        int discountPercentage = 5;
+
+        //mention the categories with discounted price applied 
         enum discountedCategory
         {
             Crime
-        }
-
-        decimal totalCost = 0.00m;
-        decimal billingCost = 0.00m;
-        decimal deliveryCost = 5.95m;
-
-
-        public Order(int quantity, string title)
-        {
-            this.quantity = quantity;
-            this.bookTitle = title;
-        }
-
+        };
         public Order()
         {
-            //get book collection database (using json file)            
-            using (StreamReader r = new StreamReader("book-collection.json"))
+            try
             {
-                string json = r.ReadToEnd();
-                bookCollection = JsonConvert.DeserializeObject<List<Book>>(json);
+                //get book collection database (using json file)            
+                using (StreamReader r = new StreamReader("data-repository/book-collection.json"))
+                {
+                    string json = r.ReadToEnd();
+                    bookCollection = JsonConvert.DeserializeObject<List<Book>>(json);
+                }
+
+                //get order items
+                using (StreamReader rd = new StreamReader("data-repository/order-items.json"))
+                {
+                    string json = rd.ReadToEnd();
+                    orderList = JsonConvert.DeserializeObject<List<OrderItem>>(json);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("Something went wrong while reading data from json file. Error: {0}", ex.Message));
             }
         }
-
-        public void getOrderList()
-        {
-            //add book items to the list of order for billing
-            orderList = new List<Order>();            
-            orderList.Add(new Order(1, "Unsolved murders"));
-            orderList.Add(new Order(1, "A Little Love Story"));
-            orderList.Add(new Order(1, "Heresy"));
-            orderList.Add(new Order(1, "Jack the Ripper"));
-            orderList.Add(new Order(1, "The Tolkien Years"));
-        }
-
         public decimal GetTotalCost()
         {
-            //fill orderList with items in order
-            getOrderList();
-
-            //if there are any items in the orderList, start billing
-            if (orderList.Count > 0)
+            try
             {
-                foreach (Order order in orderList)
+                //if there are any items in the orderList, start billing
+                if (orderList.Count > 0)
                 {
-                    var book = bookCollection.FirstOrDefault(x => x.title == order.bookTitle);
-                    if (book != null)
+                    foreach (OrderItem order in orderList)
                     {
-                        //add the book amount to total amount
-                        //check if genre of the book falls under the discounted categories (5%) 
-                        if (Enum.IsDefined(typeof(discountedCategory), book.category.name))
+                        if (order.bookTitle != null)
                         {
-                            totalCost = totalCost + (book.price - (book.price * 0.05m));
+                            var book = bookCollection.FirstOrDefault(x => x.title != null && x.title.Trim().ToLower().Equals(order.bookTitle.Trim().ToLower()));
+                            if (book != null)
+                            {
+                                //add the book amount to total amount
+                                //check if genre of the book falls under the discounted categories (5%). discountPercentage/100m to get precision decimal value.
+                                if (Enum.IsDefined(typeof(discountedCategory), book.category.name))
+                                {
+                                    totalCost = totalCost + (book.price - (book.price * (discountPercentage/100m)));
+                                }
+                                else
+                                {
+                                    totalCost = totalCost + book.price;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine(string.Format("No item found in the Book collection with book title -'{0}'", order.bookTitle));
+                                Console.WriteLine("Billing other items...");
+                            }
                         }
                         else
                         {
-                            totalCost = totalCost + book.price;
+                            Console.WriteLine(string.Format("Empty book title. Please review order items."));
+                            Console.WriteLine("Billing other items...");
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine(string.Format("No item found in the Book collection with book title -'{0}'" , order.bookTitle));
-                        Console.WriteLine("Billing other items...");
-                    }
+                }
+                else
+                {
+                    Console.WriteLine("No item found in the order. Please add item to the OrderList");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("No item found in the order. Please add item to the OrderList");
+                Console.WriteLine(string.Format("Something went wrong while calculating the billing amount. Error: {0}", ex.Message));
             }
-
             return totalCost;
         }
+    }
 
+    class OrderItem
+    {
+        public int quantity;
+        public string bookTitle;
     }
 }
