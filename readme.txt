@@ -2,15 +2,17 @@ This Book-Store app is build on .Net 5
 It returns 
 - total cost of the books ordered
 - total billing cost which would include 10% GST and delivery charges (if any).
-- books with specific genres are billed at discounted price.
+    books with specific genres are billed at discounted price.
 
 #pre-requisite for running the application on Visual Studio Code:
-- .Net 5 SDK on the system
-- C# Extention
+- .Net 5 SDK should be installed on the system
+- C# Extention for VS Code needs to be installed
 
 #build and run instructions
-- press crtl F5 or if you are using terminal then run command: dotnet run
-- for the first time it will create .vscode folder for launch.json and tasks.json. Therefore you might need to run the above step again (crtl F5) to get the desired output.
+- if using VS Code, 
+    - open terminal and set launch profile as Command Prompt and execute command: dotnet run
+    - you can also use crtl F5 to build and run. For the first time it will create .vscode folder for launch.json and tasks.json (since they are not pushed into Github). 
+        Therefore you might need to run the above step again (crtl F5) to get the final output.
 
 #data-repository
 - book-collection.json file is used as a repository for the book store which could be coming from the book-store database in real time
@@ -24,5 +26,6 @@ It returns
     Therefore, I have used ToLower() and Trim() methods while looking for the book in book collection.
 - discountedCategory enum can be used to add more categories to discount 5%.
 - I am assuming discount price will be same amount (stated 5% in problem statement) to all the discount categories. Therefore, used one variable discountPercentage.
+- GST is applied on total cost excluding delivery charges.
 
 

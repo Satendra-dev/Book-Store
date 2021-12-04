@@ -59,7 +59,7 @@ namespace Book_Store
                                 //check if genre of the book falls under the discounted categories (5%). discountPercentage/100m to get precision decimal value.
                                 if (Enum.IsDefined(typeof(discountedCategory), book.category.name))
                                 {
-                                    totalCost = totalCost + (book.price - (book.price * (discountPercentage/100m)));
+                                    totalCost = totalCost + (book.price - (book.price * (discountPercentage / 100m)));
                                 }
                                 else
                                 {
@@ -94,7 +94,7 @@ namespace Book_Store
 
     class OrderItem
     {
-        public int quantity;
-        public string bookTitle;
+        public int quantity { get; set; }
+        public string bookTitle { get; set; }
     }
 }
