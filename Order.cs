@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Book_Store
 {
-    class Order
+    class Order : IDisposable
     {
         List<OrderItem> orderList;
         List<Book> bookCollection;
@@ -48,23 +48,17 @@ namespace Book_Store
                 //if there are any items in the orderList, start billing
                 if (orderList.Count > 0)
                 {
+                    //calculate cost of each item (book) in the order
                     foreach (OrderItem order in orderList)
                     {
                         if (order.bookTitle != null)
                         {
+                            //find the book details from repository that matches the order item
                             var book = bookCollection.FirstOrDefault(x => x.title != null && x.title.Trim().ToLower().Equals(order.bookTitle.Trim().ToLower()));
                             if (book != null)
                             {
                                 //add the book amount to total amount
-                                //check if genre of the book falls under the discounted categories (5%). discountPercentage/100m to get precision decimal value.
-                                if (Enum.IsDefined(typeof(discountedCategory), book.category.name))
-                                {
-                                    totalCost = totalCost + (book.price - (book.price * (discountPercentage / 100m)));
-                                }
-                                else
-                                {
-                                    totalCost = totalCost + book.price;
-                                }
+                                totalCost = totalCost + getBookPrice(book);
                             }
                             else
                             {
@@ -89,6 +83,26 @@ namespace Book_Store
                 Console.WriteLine(string.Format("Something went wrong while calculating the billing amount. Error: {0}", ex.Message));
             }
             return totalCost;
+        }
+
+        //this method returns the book price after calculating discount, if any
+        public decimal getBookPrice(Book book)
+        {
+            //check if genre of the book falls under the discounted categories (5%). discountPercentage/100m to get precision decimal value.
+            if (Enum.IsDefined(typeof(discountedCategory), book.category.name))
+            {
+                return book.price - (book.price * (discountPercentage / 100m));
+            }
+            else
+            {
+                return book.price;
+            }
+
+        }
+
+        public void Dispose()
+        {
+            //dispose all the objects
         }
     }
 
